@@ -29,5 +29,3 @@ module.exports.loop = async function() {
     }
   });
 };
-
-loop();
