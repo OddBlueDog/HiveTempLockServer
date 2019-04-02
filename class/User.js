@@ -17,7 +17,6 @@ module.exports = class User {
       const login = await hiveApi.login(this.email, this.password);
       this.sessionId = login.data.sessions[0].sessionId;
       this.deviceList = await this.getDeviceList();
-      console.log(this.deviceList);
       this.thermostat = await this.getThermostat();
       this.thermostatId = await this.getThermostatId();
     } catch (e) {
@@ -76,7 +75,6 @@ module.exports = class User {
     const preparedDeleteQuery =
       "DELETE FROM users WHERE email = ? AND password = ?";
     const data = [this.email, this.password];
-    console.log(data);
 
     return await pool.query(preparedDeleteQuery, data);
   }

@@ -1,9 +1,9 @@
+require("dotenv").config();
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const app = express();
 const temperatureMonitor = require("./temperatureMonitor");
-require("dotenv").config();
 
 const usersController = require("./controllers/UserController");
 

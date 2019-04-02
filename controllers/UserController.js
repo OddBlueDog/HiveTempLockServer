@@ -8,7 +8,6 @@ module.exports.insert = async function(req, res, next) {
     req.body["tempToSet"]
   );
 
-  console.log(req.body["email"], req.body["password"]);
   try {
     await user.save();
   } catch (e) {
@@ -39,7 +38,6 @@ module.exports.delete = async function(req, res, next) {
   const user = new User(req.body["email"], req.body["password"]);
   try {
     const result = await user.delete();
-    console.log(result);
     if (!result.affectedRows) throw { code: "NO_ACCOUNT_FOUND" };
   } catch (e) {
     switch (e.code) {
