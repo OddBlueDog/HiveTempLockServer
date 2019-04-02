@@ -6,6 +6,7 @@ async function getAllTemps() {
 }
 
 module.exports.loop = async function() {
+  console.log("Starting loop scan");
   const allTemps = await getAllTemps();
   Object.keys(allTemps).forEach(async function(key) {
     try {
@@ -29,3 +30,6 @@ module.exports.loop = async function() {
     }
   });
 };
+
+this.loop();
+setInterval(this.loop, 60 * 1000 * 10);
