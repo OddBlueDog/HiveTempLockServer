@@ -16,12 +16,15 @@ module.exports.loop = async function() {
 
       // If current target temp is above user specified max target temperature then set the temperature
       // to the temperature the user has specified as their default
-      if (user.getCurrentTargetTemp() > row.maxTemp) {
+      if (
+        user.getCurrentTargetTemp() > row.maxTemp ||
+        user.getCurrentReportedValue() > row.maxTemp
+      ) {
         user.setTargetTemp(row.tempToSet);
       }
 
       console.log(
-        `Current target temp ${user.getCurrentTargetTemp()} Desired max temp ${
+        `Current target temp ${user.getCurrentTargetTemp()} Reported value: ${user.getCurrentReportedValue()} Desired max temp ${
           row.maxTemp
         } Temperature to set if above max ${row.tempToSet}`
       );
@@ -32,4 +35,4 @@ module.exports.loop = async function() {
 };
 
 this.loop();
-setInterval(this.loop, 60 * 1000 * 10);
+setInterval(this.loop, 60 * 1000 * 5);

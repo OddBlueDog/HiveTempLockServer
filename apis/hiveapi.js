@@ -42,6 +42,15 @@ module.exports.setTargetTemp = async function(
           attributes: {
             targetHeatTemperature: {
               targetValue: temperature
+            },
+            activeScheduleLock: {
+              targetValue: true
+            },
+            scheduleLockDuration: {
+              targetValue: 0
+            },
+            activeHeatCoolMode: {
+              targetValue: "HEAT"
             }
           }
         }
