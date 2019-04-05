@@ -54,6 +54,10 @@ module.exports = class User {
     return this.thermostat[0].attributes.targetHeatTemperature.targetValue;
   }
 
+  getCurrentReportedValue() {
+    return this.thermostat[0].attributes.targetHeatTemperature.reportedValue;
+  }
+
   async getTemperatureSettings() {
     return await pool.query("SELECT * FROM users");
   }
