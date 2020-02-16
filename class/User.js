@@ -17,8 +17,7 @@ module.exports = class User {
       const login = await hiveApi.login(this.email, this.password);
       this.sessionId = login.data.sessions[0].sessionId;
       this.deviceList = await this.getDeviceList();
-      this.thermostat = await this.getThermostat();
-      this.thermostatId = await this.getThermostatId();
+      this.thermostats = await this.getThermostats();
     } catch (e) {
       this.failedHiveLogin = true;
     }
@@ -28,7 +27,7 @@ module.exports = class User {
     return (await hiveApi.deviceList(this.sessionId)).data.nodes;
   }
 
-  async getThermostat() {
+  async getThermostats() {
     const themostat = this.deviceList.filter(function(node) {
       return (
         node.name.match(/Thermostat *(.+)*/g) && node.attributes.temperature
@@ -38,24 +37,12 @@ module.exports = class User {
     return themostat;
   }
 
-  async setTargetTemp(temperature) {
+  async setTargetTemp(temperature, thermostatId) {
     return hiveApi.setTargetTemp(
       this.sessionId,
-      this.thermostatId,
+      thermostatId,
       temperature
     );
-  }
-
-  getThermostatId() {
-    return this.thermostat[0].id;
-  }
-
-  getCurrentTargetTemp() {
-    return this.thermostat[0].attributes.targetHeatTemperature.targetValue;
-  }
-
-  getCurrentReportedValue() {
-    return this.thermostat[0].attributes.targetHeatTemperature.reportedValue;
   }
 
   async getTemperatureSettings() {
@@ -81,5 +68,17 @@ module.exports = class User {
     const data = [this.email, this.password];
 
     return await pool.query(preparedDeleteQuery, data);
+  }
+
+  getThermostatId(thermostat) {
+    return thermostat.id;
+  }
+  
+  getCurrentTargetTemp(thermostat) {
+    return thermostat.attributes.targetHeatTemperature.targetValue;
+  }
+  
+  getCurrentReportedValue(thermostat) {
+    return thermostat.attributes.targetHeatTemperature.reportedValue;
   }
 };

@@ -16,18 +16,26 @@ module.exports.loop = async function() {
 
       // If current target temp is above user specified max target temperature then set the temperature
       // to the temperature the user has specified as their default
-      if (
-        user.getCurrentTargetTemp() > row.maxTemp ||
-        user.getCurrentReportedValue() > row.maxTemp
-      ) {
-        user.setTargetTemp(row.tempToSet);
-      }
 
-      console.log(
-        `Current target temp ${user.getCurrentTargetTemp()} Reported value: ${user.getCurrentReportedValue()} Desired max temp ${
-          row.maxTemp
-        } Temperature to set if above max ${row.tempToSet}`
-      );
+      console.log('there are this many thermostats',  user.thermostats.length);
+      user.thermostats.forEach(thermostat => {
+        
+        if (
+          user.getCurrentTargetTemp(thermostat) > row.maxTemp ||
+          user.getCurrentReportedValue(thermostat) > row.maxTemp
+        ) {
+          user.setTargetTemp(row.tempToSet, user.getThermostatId(thermostat));
+        }
+
+        console.log(
+          `Current target temp ${user.getCurrentTargetTemp(thermostat)} Reported value: ${user.getCurrentReportedValue(thermostat)} Desired max temp ${
+            row.maxTemp
+          } Temperature to set if above max ${row.tempToSet}`
+        );
+  
+      })
+
+ 
     } catch (e) {
       console.log("An issue occured");
     }
