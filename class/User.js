@@ -15,7 +15,7 @@ module.exports = class User {
   async login() {
     try {
       const login = await hiveApi.login(this.email, this.password);
-      this.sessionId = login.data.sessions[0].sessionId;
+      this.sessionId = login.data.token;
       this.deviceList = await this.getDeviceList();
       this.thermostats = await this.getThermostats();
     } catch (e) {

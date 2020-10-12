@@ -4,21 +4,26 @@ const baseApi = axios.create({
   baseURL: "https://api-prod.bgchprod.info:443/omnia",
   headers: {
     "Content-Type": "application/vnd.alertme.zoo-6.1+json",
-    Accept: "application/vnd.alertme.zoo-6.1+json",
+    "Accept": "application/vnd.alertme.zoo-6.1+json",
     "X-Omnia-Client": "Hive Web Dashboard"
   }
 });
 
+const loginApi = axios.create({
+  baseURL: "https://beekeeper.hivehome.com/1.0/cognito/login",
+  headers: {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+  }
+});
+
 module.exports.login = async function(username, password) {
-  return await baseApi.post("/auth/sessions", {
-    sessions: [
+  return await loginApi.post("/", 
       {
         username: username,
         password: password,
-        caller: "WEB"
       }
-    ]
-  });
+  );
 };
 
 module.exports.deviceList = async function(sessionId) {
